@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: alicebob-service
+spec:
+  type: NodePort
+  selector:
+    app: alicebob
+  ports:
+  - name: au-port
+    protocol: TCP
+    nodePort: 30001
+    port: 8080
+    targetPort: 8080
+  - name: bu-port
+    protocol: TCP
+    nodePort: 30002
+    port: 8081
+    targetPort: 8081
+  - name: ae-port
+    protocol: TCP
+    nodePort: 30003
+    port: 4000
+    targetPort: 4000
+  - name: be-port
+    protocol: TCP
+    nodePort: 30004
+    port: 5000
+    targetPort: 5000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alicebob-deployment
+  labels:
+    app: alicebob
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alicebob
+  template:
+    metadata:
+      labels:
+        app: alicebob
+    spec:
+      containers:
+      - name: au
+        image: biegel/au:latest
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: Always
+      - name: bu
+        image: biegel/bu:latest
+        ports:
+        - containerPort: 8081
+        imagePullPolicy: Always
+      - name: ae
+        image: biegel/ae:latest
+        ports:
+        - containerPort: 4000
+        imagePullPolicy: Always
+      - name: be
+        image: biegel/be:latest
+        ports:
+        - containerPort: 5000
+        imagePullPolicy: Always
