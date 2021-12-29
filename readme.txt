@@ -11,3 +11,5 @@ pm3152:
 - POP3 client
 - POP3 server
 - Docker
+- Kubernetes
+- refactor onto base socket classes
